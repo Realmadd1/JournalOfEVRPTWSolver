@@ -8,7 +8,6 @@ class Data:
         self.vehicles = {}      # 车辆集合
         self.nodes = {}         # 节点集合
 
-
     def readData(self, path):
         # 数据读取
         file = open(path)
@@ -39,18 +38,18 @@ class Data:
 
         self.nodes = Node.get_instances()
         # 获取第一个节点的属性
-        first_node = self.nodes[0]
-
-        # 创建虚拟节点对象，oid为101，其他属性与第一个节点相同；分别表示从仓库出发和回到仓库
-        virtual_node = Node(oid=101,
-                            x_coord=first_node.x_coord,
-                            y_coord=first_node.y_coord,
-                            demand=first_node.demand,
-                            ready_time=first_node.ready_time,
-                            due_time=first_node.due_time,
-                            service_time=first_node.service_time
-                            )
-        Node.add_instance(virtual_node)
-
-        # 更新 self.nodes，获取更新后的节点集合
-        self.nodes = Node.get_instances()
+        # first_node = self.nodes[0]
+        #
+        # # 创建虚拟节点对象，oid为101，其他属性与第一个节点相同；分别表示从仓库出发和回到仓库
+        # virtual_node = Node(oid=101,
+        #                     x_coord=first_node.x_coord,
+        #                     y_coord=first_node.y_coord,
+        #                     demand=first_node.demand,
+        #                     ready_time=first_node.ready_time,
+        #                     due_time=first_node.due_time,
+        #                     service_time=first_node.service_time
+        #                     )
+        # Node.add_instance(virtual_node)
+        #
+        # # 更新 self.nodes，获取更新后的节点集合
+        # self.nodes = Node.get_instances()
