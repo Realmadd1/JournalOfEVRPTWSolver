@@ -117,3 +117,4 @@ BATTERY NO.  XCOORD.   YCOORD.    DEMAND   READY TIME  DUE DATE
    104         73         55          0          0       1236
    105         35         33          0          0       1236
    106         70         25          0          0       1236
+   107         80         13          0          0       1236
