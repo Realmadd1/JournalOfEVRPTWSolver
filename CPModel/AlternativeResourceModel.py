@@ -19,6 +19,11 @@ class AlternativeResourceModel:
         self.__solve()
 
     def __createVariables(self):
+
+
+
+
+
         self.pai = self.model.sequence_var(size=5, types=[1, 2, 3, 4, 5])
 
     def __createObjection(self):
