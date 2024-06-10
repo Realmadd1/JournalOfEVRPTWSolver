@@ -9,6 +9,7 @@ class AlternativeResourceModel:
         self.xm = {}            # 强制区间变量, xm[i], 客户i的服务
         self.xo = {}            # 可选区间变量, xo[i,k], 客户i与车辆k的关联
         self.pai = {}           # 序列变量, pai[k], 与车辆k相关的变量集合
+        self.a = 0
 
     def run(self):
         self.__createVariables()
