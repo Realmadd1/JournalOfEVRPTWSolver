@@ -11,3 +11,4 @@ class EVRPTWSolver:
     def __readData(self, path):
         self.data = Data()
         self.data.readData(path)
+
