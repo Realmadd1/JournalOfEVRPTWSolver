@@ -9,6 +9,7 @@ class Data:
         self.nodes = {}         # 节点集合
         self.customers = {}     # 客户节点集合
         self.depot = None       # 仓库节点
+        self.chargeNodes = {}   # 充电站点集合
 
     def readData(self, path):
         # 数据读取
@@ -26,7 +27,8 @@ class Data:
         self.vehicles = Vehicle.get_instances()
 
         # 获取节点数据
-        for node_no in range(9, 110):
+        # 客户节点
+        for node_no in range(9, 117):
             node_inform = file_data[node_no].strip().split()  # strip()去除首位空格 split()以字符串为元素将数据存入一个列表
             node = Node(oid=int(node_inform[0]),
                         x_coord=int(node_inform[1]),
@@ -37,11 +39,20 @@ class Data:
                         service_time=int(node_inform[6])
                         )
             Node.add_instance(node)
-            if node_no != 9:
+            # 客户节点集合
+            if 9 < node_no < 110:
                 self.customers[node.oid] = node
+            # 充电站点集合
+            elif node_no >= 110:
+                self.chargeNodes[node.oid] = node
+            # 仓库节点
             else:
                 self.depot = node
 
         self.nodes = Node.get_instances()
+
+
+
+
 
 
