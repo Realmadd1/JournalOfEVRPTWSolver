@@ -84,7 +84,7 @@ class AlternativeResourceModel:
 
         # 关于车辆的序列变量
         for k in vehicleVars:
-            self.pai[k] = self.model.sequence_var(vehicleVars[k])
+            self.pai[k] = self.model.sequence_var(vehicleVars[k], name="pai_{}".format(k))
 
     def __createObjection(self):
         pass
