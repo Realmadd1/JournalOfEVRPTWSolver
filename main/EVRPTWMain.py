@@ -6,12 +6,7 @@ from main.EVRPTWPlanner import EVRPTWSolver
 #   1:  AlternativeResourceModel
 
 
-
-
 solveMethodNo = 1
-
-
-
 
 
 if __name__ == "__main__":
