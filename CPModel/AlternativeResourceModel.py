@@ -1,4 +1,5 @@
-from cplex import *
+from docplex.cp.model import CpoModel
+from docplex.cp.function import *
 
 
 class AlternativeResourceModel:
