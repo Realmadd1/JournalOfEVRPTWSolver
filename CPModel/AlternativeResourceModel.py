@@ -8,8 +8,9 @@ class AlternativeResourceModel:
         self.model = CpoModel("AlternativeResourceModel")
         self.xm = {}            # 强制区间变量, xm[i], 客户i的服务
         self.xo = {}            # 可选区间变量, xo[i,k], 客户i与车辆k的关联
-        self.pai = {}           # 序列变量, pai[k], 与车辆k相关的变量集合
-        self.a = 0
+        self.pai = {}           # 序列变量, pai[k], 与车辆k相关的变量集合, 表示车辆访问顺序
+        self.C = {}             # 累积资源函数, C[k], 与车量k有关的负载累积资源函数
+        self.Q = {}             # 累积资源函数, Q[k], 与车辆k有关的电量累积资源函数
 
     def run(self):
         self.__createVariables()
