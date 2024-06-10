@@ -15,6 +15,8 @@ class AlternativeResourceModel:
         """决策变量"""
         self.xm = {}            # 强制区间变量, xm[i], 客户i的服务
         self.xo = {}            # 可选区间变量, xo[i,k], 节点i与车辆k的关联
+        self.depotO = {}        # 强制区间变量, 从仓库出发
+        self.depotI = {}        # 强制区间变量, 回到仓库
         self.pai = {}           # 序列变量, pai[k], 与车辆k相关的变量集合, 表示车辆访问顺序
         self.C = {}             # 累积资源函数, C[k], 与车量k有关的负载累积资源函数
         self.Q = {}             # 累积资源函数, Q[k], 与车辆k有关的电量累积资源函数
@@ -38,11 +40,10 @@ class AlternativeResourceModel:
                 self.chargesCopy[c+t*len(self.data.chargeNodes)] = charge
         pprint(self.chargesCopy)
 
-
-
-
     def __createVariables(self):
-        # 关于客户的可选区间变量
+        vehicleVars = {k: [] for k in self.data.vehicles}
+
+        # 关于客户的可区间变量
         for i, cus in self.data.customers.items():
             self.xm[i] = self.model.interval_var(
                 start=[cus.ready_time, cus.due_time],
@@ -55,9 +56,10 @@ class AlternativeResourceModel:
                     end=[cus.ready_time, cus.due_time],
                     size=cus.service_time, optional=True, name='x_{}_{}'.format(i, k)
                 )
+                vehicleVars[k].append(self.xo[i, k])
 
         # 关于充电站的可选区间变量
-        for c, charge in self.data.chargeNodes.items():
+        for c, charge in self.chargesCopy.items():
             for k, vehicle in self.data.vehicles.items():
                 self.xo[c, k] = self.model.interval_var(
                     start=[self.resourceWise[0], self.resourceWise[-1]],
@@ -65,8 +67,24 @@ class AlternativeResourceModel:
                     size=[0, math.ceil(vehicle.battery/vehicle.charge)],
                     optional=True, name='x_{}_{}'.format(c, k)
                 )
+                vehicleVars[k].append(self.xo[c, k])
 
-        # self.pai = self.model.sequence_var(size=5, types=[1, 2, 3, 4, 5])
+        # 关于仓库节点的区间变量
+        for k, vehicle in self.data.vehicles.items():
+            self.depotO[k] = self.model.interval_var(
+                        start=self.resourceWise[0], end=self.resourceWise[0], size=0,
+                        optional=True, name='x_{}'.format(k)
+                    )
+            self.depotI[k] = self.model.interval_var(
+                        start=self.resourceWise[1], end=self.resourceWise[1], size=0,
+                        optional=True, name='x_{}'.format(k)
+                    )
+            vehicleVars[k].append(self.depotO[k])
+            vehicleVars[k].append(self.depotI[k])
+
+        # 关于车辆的序列变量
+        for k in vehicleVars:
+            self.pai[k] = self.model.sequence_var(vehicleVars[k])
 
     def __createObjection(self):
         pass
